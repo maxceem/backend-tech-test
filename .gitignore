@@ -6,10 +6,9 @@
 .pnp.js
 
 # testing
-/coverage
+backend/coverage
 
 # production
-**/build
 backend/dist
 
 # misc

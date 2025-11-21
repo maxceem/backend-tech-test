@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Chain } from '../types/chain-id';
+import { Chain } from '../types/chain';
 
 export const marketRequestSchema = z.object({
   params: z.object({}).default({}),
@@ -7,7 +7,11 @@ export const marketRequestSchema = z.object({
   query: z
     .object({
       chainId: z.enum(Chain).optional(),
-      marketName: z.string().optional(),
+      marketName: z
+        .string()
+        .trim()
+        .min(1, { message: 'marketName cannot be empty' })
+        .optional(),
     })
     .default({}),
 });

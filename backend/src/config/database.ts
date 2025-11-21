@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
   password: env.DB_PASSWORD,
   database: env.DB_NAME,
   entities: [Market],
-  synchronize: false,
+  synchronize: false, // IMPORTANT: always keep it off for safety in production
   logging: env.LOG_DB_QUERY,
   logger: new TypeOrmPinoLogger(logger),
   namingStrategy: new SnakeNamingStrategy(),

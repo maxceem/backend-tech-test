@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
-import { Chain } from '../types/chain-id';
+import { Chain } from '../types/chain';
 
 @Entity('market')
 export class Market {

@@ -11,8 +11,6 @@ describe('GET /tvl', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ marketTvl: EXPECTED_CALCULATIONS.allMarketsTvl });
-
-    // Validate response schema
     expect(() => tvlResponseSchema.parse(res.body)).not.toThrow();
   });
 
@@ -53,14 +51,36 @@ describe('GET /tvl', () => {
 
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Validation error');
-    expect(res.body.details).toBeDefined();
-    expect(Array.isArray(res.body.details)).toBe(true);
+    expect(res.body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: 'query.chainId',
+          message: expect.any(String),
+        }),
+      ])
+    );
   });
 
-  test('returns string type for marketTvl', async () => {
-    const res = await request(app).get('/tvl');
+  test('returns "0" when filtering by non-existent market name', async () => {
+    const res = await request(app).get('/tvl?marketName=NonExistentMarket');
 
     expect(res.status).toBe(200);
-    expect(typeof res.body.marketTvl).toBe('string');
+    expect(res.body.marketTvl).toBe('0');
+    expect(() => tvlResponseSchema.parse(res.body)).not.toThrow();
+  });
+
+  test('returns 400 when marketName is empty after trimming', async () => {
+    const res = await request(app).get('/tvl?marketName=%20%20');
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Validation error');
+    expect(res.body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: 'query.marketName',
+          message: expect.any(String),
+        }),
+      ])
+    );
   });
 });

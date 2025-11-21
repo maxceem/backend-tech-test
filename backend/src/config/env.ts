@@ -1,10 +1,6 @@
 import { z } from 'zod';
-import dotenv from 'dotenv';
 import { NodeEnv } from '../types/node-env';
 import { LogLevel } from '../types/log-level';
-
-// Load environment variables from .env file
-dotenv.config();
 
 const envSchema = z.object({
   NODE_ENV: z.enum(NodeEnv).default(NodeEnv.Development),
@@ -23,5 +19,4 @@ const envSchema = z.object({
   LOG_DB_QUERY: z.coerce.boolean().default(process.env.NODE_ENV === NodeEnv.Development),
 });
 
-// Validate and export typed config
 export const env = envSchema.parse(process.env);

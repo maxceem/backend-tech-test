@@ -1,21 +1,30 @@
 import 'reflect-metadata';
+import dotenv from 'dotenv';
+
+// NOTE: We should only load config from .env file in this bootstrap script and not inside app.
+//       So tests could load their own .env.test file to avoid any mixing.
+dotenv.config();
+
 import { env } from './config/env';
 import { AppDataSource } from './config/database';
 import { createApp } from './app';
 import { logger } from './utils/logger';
 
-// Initialize TypeORM and start server
-AppDataSource.initialize()
-  .then(() => {
-    logger.info('Database connection established');
+async function bootstrap() {
+  // Initialize database
+  await AppDataSource.initialize();
+  logger.info('Database connection established');
 
-    const app = createApp();
+  // Create application
+  const app = createApp(AppDataSource);
 
-    app.listen(env.PORT, () => {
-      logger.info(`Server is running on port ${env.PORT}`);
-    });
-  })
-  .catch((error) => {
-    logger.fatal('Error during Data Source initialization', error);
-    process.exit(1);
+  // Start server
+  app.listen(env.PORT, () => {
+    logger.info(`Server is running on port ${env.PORT}`);
   });
+}
+
+bootstrap().catch((error) => {
+  logger.fatal('Application startup failed', error);
+  process.exit(1);
+});

@@ -11,8 +11,6 @@ describe('GET /liquidity', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ marketLiquidity: EXPECTED_CALCULATIONS.allMarketsLiquidity });
-
-    // Validate response schema
     expect(() => liquidityResponseSchema.parse(res.body)).not.toThrow();
   });
 
@@ -53,21 +51,36 @@ describe('GET /liquidity', () => {
 
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Validation error');
-    expect(res.body.details).toBeDefined();
+    expect(res.body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: 'query.chainId',
+          message: expect.any(String),
+        }),
+      ])
+    );
   });
 
-  test('returns string type for marketLiquidity', async () => {
-    const res = await request(app).get('/liquidity');
+  test('returns "0" when filtering by non-existent market name', async () => {
+    const res = await request(app).get('/liquidity?marketName=NonExistentMarket');
 
     expect(res.status).toBe(200);
-    expect(typeof res.body.marketLiquidity).toBe('string');
+    expect(res.body.marketLiquidity).toBe('0');
+    expect(() => liquidityResponseSchema.parse(res.body)).not.toThrow();
   });
 
-  test('calculates liquidity correctly (supply - borrow)', async () => {
-    const res = await request(app).get('/liquidity?marketName=Token%2001&chainId=1');
+  test('returns 400 when marketName is empty after trimming', async () => {
+    const res = await request(app).get('/liquidity?marketName=%20%20');
 
-    expect(res.status).toBe(200);
-    // Token 01 on Ethereum: supply 10000 - borrow 3000 = 7000
-    expect(res.body.marketLiquidity).toBe('7000');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Validation error');
+    expect(res.body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: 'query.marketName',
+          message: expect.any(String),
+        }),
+      ])
+    );
   });
 });

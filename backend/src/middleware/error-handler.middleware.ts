@@ -8,7 +8,10 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   const publicError = err instanceof HttpError ? err : new InternalServerError();
   const logError = err instanceof Error ? err : new Error(String(err));
 
-  logger.error('Request handling failed', logError);
+  // Only log server errors (5xx) - client errors don't need logging
+  if (publicError.status >= 500) {
+    logger.error('Request handling failed', logError);
+  }
 
   res.status(publicError.status).json({
     error: publicError.message,

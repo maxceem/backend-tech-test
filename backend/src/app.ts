@@ -1,9 +1,10 @@
 import express, { Express } from 'express';
 import cors from 'cors';
-import routes from './routes';
+import { DataSource } from 'typeorm';
+import { createRoutes } from './routes';
 import { errorHandler } from './middleware/error-handler.middleware';
 
-export const createApp = (): Express => {
+export const createApp = (dataSource: DataSource): Express => {
   const app = express();
 
   // Middlewares
@@ -11,7 +12,7 @@ export const createApp = (): Express => {
   app.use(express.json());
 
   // Routes
-  app.use(routes);
+  app.use(createRoutes(dataSource));
 
   // Error handling
   app.use(errorHandler);

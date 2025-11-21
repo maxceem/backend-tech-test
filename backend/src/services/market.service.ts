@@ -1,7 +1,6 @@
-import { SelectQueryBuilder } from 'typeorm';
-import { AppDataSource } from '../config/database';
+import { SelectQueryBuilder, DataSource, Repository } from 'typeorm';
 import { Market } from '../entities/market.entity';
-import { Chain } from '../types/chain-id';
+import { Chain } from '../types/chain';
 
 export interface MarketFilters {
   chainId?: Chain;
@@ -9,7 +8,11 @@ export interface MarketFilters {
 }
 
 export class MarketService {
-  private repository = AppDataSource.getRepository(Market);
+  private repository: Repository<Market>;
+
+  constructor(dataSource: DataSource) {
+    this.repository = dataSource.getRepository(Market);
+  }
 
   private buildQuery(filters: MarketFilters): SelectQueryBuilder<Market> {
     const query = this.repository.createQueryBuilder('market');
@@ -40,5 +43,4 @@ export class MarketService {
 
     return result?.liquidity ?? '0';
   }
-
 }
