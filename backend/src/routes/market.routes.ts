@@ -10,6 +10,8 @@ export const createMarketRoutes = (dataSource: DataSource): Router => {
 
   router.get('/tvl', controller.getTvl);
   router.get('/liquidity', controller.getLiquidity);
+  router.get('/markets', controller.getMarkets);
+  router.get('/markets/:id', controller.getMarketById);
 
   return router;
 };

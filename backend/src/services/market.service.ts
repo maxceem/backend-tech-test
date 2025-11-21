@@ -43,4 +43,23 @@ export class MarketService {
 
     return result?.liquidity ?? '0';
   }
+
+  async findById(id: number): Promise<Market | null> {
+    return this.repository.findOneBy({ id });
+  }
+
+  async findAll(
+    filters: MarketFilters = {},
+    page: number = 1,
+    limit: number = 20
+  ): Promise<{ markets: Market[]; total: number }> {
+    const query = this.buildQuery(filters);
+
+    const [markets, total] = await query
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return { markets, total };
+  }
 }

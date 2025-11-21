@@ -15,10 +15,10 @@ export class Market {
   chainId: Chain;
 
   @Column({ type: 'bigint' })
-  totalSupplyCents: number;
+  totalSupplyCents: string;
 
   @Column({ type: 'bigint' })
-  totalBorrowCents: number;
+  totalBorrowCents: string;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -2,28 +2,32 @@ import { Chain } from '../../types/chain';
 
 export const TEST_MARKETS = [
   {
+    id: 1,
     name: 'Token 01',
     chainId: Chain.Ethereum,
-    totalSupplyCents: 10000,
-    totalBorrowCents: 3000,
+    totalSupplyCents: '10000',
+    totalBorrowCents: '3000',
   },
   {
+    id: 2,
     name: 'Token 01',
     chainId: Chain.BSC,
-    totalSupplyCents: 8000,
-    totalBorrowCents: 2000,
+    totalSupplyCents: '8000',
+    totalBorrowCents: '2000',
   },
   {
+    id: 3,
     name: 'Token 02',
     chainId: Chain.Ethereum,
-    totalSupplyCents: 15000,
-    totalBorrowCents: 5000,
+    totalSupplyCents: '15000',
+    totalBorrowCents: '5000',
   },
   {
+    id: 4,
     name: 'Token 02',
     chainId: Chain.BSC,
-    totalSupplyCents: 12000,
-    totalBorrowCents: 4000,
+    totalSupplyCents: '12000',
+    totalBorrowCents: '4000',
   },
 ];
 
