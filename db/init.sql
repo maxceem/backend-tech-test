@@ -8,6 +8,10 @@ CREATE TABLE IF NOT EXISTS market (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create indexes
+CREATE INDEX idx_market_name ON market(name);
+CREATE INDEX idx_market_chain_id ON market(chain_id);
+
 -- Seed data
 INSERT INTO market (name, chain_id, total_supply_cents, total_borrow_cents) VALUES 
   ('Token 01', '1', 10482, 5915),

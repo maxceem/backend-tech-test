@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 'typeorm';
 import { Chain } from '../types/chain';
 
 @Entity('market')
+@Index('idx_market_name', ['name'])
+@Index('idx_market_chain_id', ['chainId'])
 export class Market {
   @PrimaryGeneratedColumn()
   id: number;
