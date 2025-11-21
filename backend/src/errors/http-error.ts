@@ -15,6 +15,12 @@ export class BadRequestError extends HttpError {
   }
 }
 
+export class NotFoundError extends HttpError {
+  constructor(message = 'Not found', details?: unknown) {
+    super(404, message, details);
+  }
+}
+
 export class InternalServerError extends HttpError {
   constructor(message = 'Internal server error', details?: unknown) {
     super(500, message, details);
