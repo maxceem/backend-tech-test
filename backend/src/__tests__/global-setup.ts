@@ -5,7 +5,7 @@ const TEST_ENV_VALUE = 'test';
 
 export default function globalSetup(): void {
   const envPath = resolve(__dirname, '../../.env.test');
-  const result = config({ path: envPath });
+  const result = config({ path: envPath, override: true });
 
   if (result.error) {
     throw new Error(`Failed to load test environment file at ${envPath}: ${result.error.message}`);
