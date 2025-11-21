@@ -9,6 +9,7 @@ export const TvlRequestSchema = z.object({
       chainId: chainSchema.optional(),
       marketName: z.string().trim().min(1, { message: 'marketName cannot be empty' }).optional(),
     })
+    .strict()
     .default({}),
 });
 

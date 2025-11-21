@@ -83,4 +83,19 @@ describe('GET /tvl', () => {
       ])
     );
   });
+
+  test('returns 400 for unknown query parameter', async () => {
+    const res = await request(app).get('/tvl?unknown=12');
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Validation error');
+    expect(res.body.details).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          path: 'query',
+          message: expect.stringContaining('Unrecognized key'),
+        }),
+      ])
+    );
+  });
 });
