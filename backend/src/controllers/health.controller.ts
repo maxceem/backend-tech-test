@@ -16,7 +16,7 @@ export class HealthController {
         message: 'Database is connected.',
       };
       res.status(200).json(response);
-    } catch (error) {
+    } catch (_error) {
       throw new ServiceUnavailableError('Database is disconnected.');
     }
   });

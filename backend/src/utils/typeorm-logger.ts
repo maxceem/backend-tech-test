@@ -17,12 +17,7 @@ export class TypeOrmPinoLogger implements TypeOrmLogger {
     this.appLogger.error('DB query failed', error, { query, parameters });
   }
 
-  logQuerySlow(
-    time: number,
-    query: string,
-    parameters?: unknown[],
-    _queryRunner?: QueryRunner
-  ) {
+  logQuerySlow(time: number, query: string, parameters?: unknown[], _queryRunner?: QueryRunner) {
     this.appLogger.warn('DB query slow', { time, query, parameters });
   }
 

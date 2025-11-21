@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 import { z } from 'zod';
 import { NodeEnv } from '../types/node-env';
 import { LogLevel } from '../types/log-level';

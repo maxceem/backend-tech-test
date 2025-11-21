@@ -1,3 +1,4 @@
+/* eslint-disable no-process-env */
 import { config } from 'dotenv';
 import { resolve } from 'path';
 const TEST_ENV_VALUE = 'test';

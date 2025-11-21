@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { errorHandler } from '../../../middleware/error-handler.middleware';
-import { BadRequestError, InternalServerError } from '../../../errors/http-error';
+import { BadRequestError } from '../../../errors/http-error';
 import { logger } from '../../../utils/logger';
 
 jest.mock('../../../utils/logger', () => ({
@@ -35,12 +35,7 @@ describe('errorHandler middleware', () => {
     ];
     const httpError = new BadRequestError('Validation failed', validationDetails);
 
-    errorHandler(
-      httpError,
-      mockRequest as Request,
-      mockResponse as Response,
-      mockNext
-    );
+    errorHandler(httpError, mockRequest as Request, mockResponse as Response, mockNext);
 
     expect(statusMock).toHaveBeenCalledWith(400);
     expect(jsonMock).toHaveBeenCalledWith({
@@ -54,12 +49,7 @@ describe('errorHandler middleware', () => {
   test('converts regular Error to InternalServerError', () => {
     const regularError = new Error('Something went wrong');
 
-    errorHandler(
-      regularError,
-      mockRequest as Request,
-      mockResponse as Response,
-      mockNext
-    );
+    errorHandler(regularError, mockRequest as Request, mockResponse as Response, mockNext);
 
     expect(statusMock).toHaveBeenCalledWith(500);
     expect(jsonMock).toHaveBeenCalledWith({
@@ -73,12 +63,7 @@ describe('errorHandler middleware', () => {
   test('converts non-Error value to InternalServerError', () => {
     const stringError = 'Something bad happened';
 
-    errorHandler(
-      stringError as any,
-      mockRequest as Request,
-      mockResponse as Response,
-      mockNext
-    );
+    errorHandler(stringError as any, mockRequest as Request, mockResponse as Response, mockNext);
 
     expect(statusMock).toHaveBeenCalledWith(500);
     expect(jsonMock).toHaveBeenCalledWith({

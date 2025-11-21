@@ -130,8 +130,8 @@ describe('asyncHandler middleware', () => {
 
     test('handles errors thrown in acynhronous handler', async () => {
       const asyncError = new Error('Async error');
-      const handler = jest.fn(async (req, res) => {
-        throw asyncError
+      const handler = jest.fn(async (_req, _res) => {
+        throw asyncError;
       });
 
       const middleware = asyncHandler(handler);

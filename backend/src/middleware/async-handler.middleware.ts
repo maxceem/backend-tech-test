@@ -9,20 +9,14 @@ type AsyncHandlerWithSchema<TSchema extends ZodTypeAny> = (
   dto: z.infer<TSchema>
 ) => Promise<void>;
 
-type AsyncHandlerWithoutSchema = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => Promise<void>;
+type AsyncHandlerWithoutSchema = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 
 export function asyncHandler<TSchema extends ZodTypeAny>(
   handler: AsyncHandlerWithSchema<TSchema>,
   schema: TSchema
 ): RequestHandler;
 
-export function asyncHandler(
-  handler: AsyncHandlerWithoutSchema
-): RequestHandler;
+export function asyncHandler(handler: AsyncHandlerWithoutSchema): RequestHandler;
 
 export function asyncHandler<TSchema extends ZodTypeAny>(
   handler: AsyncHandlerWithSchema<TSchema> | AsyncHandlerWithoutSchema,

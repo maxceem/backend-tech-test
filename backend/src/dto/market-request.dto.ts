@@ -7,11 +7,7 @@ export const marketRequestSchema = z.object({
   query: z
     .object({
       chainId: z.enum(Chain).optional(),
-      marketName: z
-        .string()
-        .trim()
-        .min(1, { message: 'marketName cannot be empty' })
-        .optional(),
+      marketName: z.string().trim().min(1, { message: 'marketName cannot be empty' }).optional(),
     })
     .default({}),
 });
