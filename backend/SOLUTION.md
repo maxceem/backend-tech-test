@@ -74,9 +74,15 @@ NOTE:
   - Config automatically transforms types of values (for example string '8181' to number 8181).
   - Config is typed so it's safe to use it the code, and `process.env` is prohibited to use via eslint.
 - Tests
+  - Run in a very fast way as test DB configured to keep all data in-memory. This approach will work nicely with CI/CD.
   - Integration tests cover parts which require interaction with DB, while unit tests check simple parts.
-  - Tests cover the whole code without duplication in unit and integration test, so it's easier to support.
+  - Tests coverage close to 100% while there are no overlapping or extra tests, only what is really needed and valuable. No tests just for the sake of tests.
 - Eslint & prettier for ensuring good practices and consistent code style.
+- TypeORM was added for strict typing support and potentially it would automate migrations.
+- `pino` logger was added as it's much faster than other loggers. The logger is configured to format logs nicely during development and log structured JSON for production observations via ELK stack other logging tools.
+- All bigint values from DB are treated as strings inside code to not loose precision for big numbers.
+- `asyncHandler` allow us throw errors inside controllers without try/catch boilerplate and automatically validates and coerces request data.
+- Indexes were added to DB to show how I would do it in production code even though tests data is small for now.
 
 ## Todo
 
